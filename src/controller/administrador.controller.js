@@ -4,18 +4,18 @@ const db = require('../config/db.config');
 //------------------------------------------------------
 //Entidades de Sequelize
 //------------------------------------------------------
-const Vendedor = db.sequelize.import('../models/vendedor');
+const Administrador = db.sequelize.import('../models/administrador');
 
-exports.consultarVendedores = (req,res) => {
+exports.consultarAdministradores = (req,res) => {
     
-    Vendedor.findAll({
+    Administrador.findAll({
         order: [
             ['estado', 'ASC'],
             ['primer_apellido', 'ASC']
         ]
     })
-    .then(vendedor => {
-        res.json(vendedor);
+    .then(administrador => {
+        res.json(administrador);
     }).catch(err => {
         console.log(err);
         res.status(500).json({msg: "error", details: err});

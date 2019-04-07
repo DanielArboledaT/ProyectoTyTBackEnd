@@ -1,26 +1,18 @@
 /* jshint indent: 2 */
 
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('vendedor', {
-    id_vendedor: {
+  return sequelize.define('cliente', {
+    id_cliente: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
       primaryKey: true
     },
-    id_img_perfil: {
+    id_vendedor: {
       type: DataTypes.INTEGER(11),
       allowNull: true,
       references: {
-        model: 'img_perfil',
-        key: 'id_img_perfil'
-      }
-    },
-    id_administrador: {
-      type: DataTypes.INTEGER(11),
-      allowNull: false,
-      references: {
-        model: 'administrador',
-        key: 'id_administrador'
+        model: 'vendedor',
+        key: 'id_vendedor'
       }
     },
     primer_nombre: {
@@ -43,6 +35,10 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER(11),
       allowNull: false
     },
+    nit: {
+      type: DataTypes.STRING(30),
+      allowNull: false
+    },
     direccion: {
       type: DataTypes.STRING(100),
       allowNull: false
@@ -59,8 +55,8 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING(100),
       allowNull: false
     },
-    fecha_ingreso: {
-      type: DataTypes.DATEONLY,
+    nombre_negocio: {
+      type: DataTypes.STRING(50),
       allowNull: false
     },
     estado: {
@@ -73,6 +69,6 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false
     }
   }, {
-    tableName: 'vendedor'
+    tableName: 'cliente'
   });
 };

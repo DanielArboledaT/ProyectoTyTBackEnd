@@ -1,8 +1,8 @@
 /* jshint indent: 2 */
 
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('vendedor', {
-    id_vendedor: {
+  return sequelize.define('administrador', {
+    id_administrador: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
       primaryKey: true
@@ -13,14 +13,6 @@ module.exports = function(sequelize, DataTypes) {
       references: {
         model: 'img_perfil',
         key: 'id_img_perfil'
-      }
-    },
-    id_administrador: {
-      type: DataTypes.INTEGER(11),
-      allowNull: false,
-      references: {
-        model: 'administrador',
-        key: 'id_administrador'
       }
     },
     primer_nombre: {
@@ -71,8 +63,12 @@ module.exports = function(sequelize, DataTypes) {
     email: {
       type: DataTypes.STRING(100),
       allowNull: false
+    },
+    constraseña: {
+      type: DataTypes.STRING(18),
+      allowNull: false
     }
   }, {
-    tableName: 'vendedor'
+    tableName: 'administrador'
   });
 };

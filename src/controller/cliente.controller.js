@@ -4,18 +4,18 @@ const db = require('../config/db.config');
 //------------------------------------------------------
 //Entidades de Sequelize
 //------------------------------------------------------
-const Vendedor = db.sequelize.import('../models/vendedor');
+const Cliente = db.sequelize.import('../models/cliente');
 
-exports.consultarVendedores = (req,res) => {
+exports.consultarClientes = (req,res) => {
     
-    Vendedor.findAll({
+    Cliente.findAll({
         order: [
             ['estado', 'ASC'],
-            ['primer_apellido', 'ASC']
+            ['nombre_negocio', 'ASC']
         ]
     })
-    .then(vendedor => {
-        res.json(vendedor);
+    .then(cliente => {
+        res.json(cliente);
     }).catch(err => {
         console.log(err);
         res.status(500).json({msg: "error", details: err});
