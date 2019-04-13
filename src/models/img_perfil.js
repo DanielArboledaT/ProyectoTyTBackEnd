@@ -2,10 +2,11 @@
 
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('img_perfil', {
-    id_img_perfil: {
+    idImgPerfil: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
-      primaryKey: true
+      primaryKey: true,
+      field: "id_img_perfil"
     },
     url: {
       type: DataTypes.STRING(500),
