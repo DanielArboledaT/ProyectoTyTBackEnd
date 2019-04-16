@@ -35,3 +35,39 @@ exports.guardarCliente = (req,res) => {
         res.status(500).json({msg: "error", details: err});
     })
 }
+
+exports.cambiarEstadoCliente = (req,res) =>{
+
+    let cliente = req.body;
+
+    if(cliente.estado === 'A'){
+
+        Cliente.update({estado :'I'},
+        {
+            where: { 
+                idCliente: cliente.idCliente 
+            }
+        }).then(cliente => {
+            res.json(cliente)
+        }).catch(err => {
+            console.log(err);
+            res.status(500).json({msg: "error", details: err});
+        })
+
+    }else if(cliente.estado === 'I'){
+
+        Cliente.update({estado :'A'},
+        {
+            where: { 
+                idCliente: cliente.idCliente 
+            }
+        }).then(cliente => {
+            res.json(cliente)
+        }).catch(err => {
+            console.log(err);
+            res.status(500).json({msg: "error", details: err});
+        })
+
+    }
+
+}

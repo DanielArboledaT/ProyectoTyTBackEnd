@@ -5,4 +5,6 @@ router.get('/cliente/consultar', cliente.consultarClientes);
 
 router.post('/cliente/guardarCliente', cliente.guardarCliente);
 
+router.post('/clientes/cambiarEstado', cliente.cambiarEstadoCliente)
+
 module.exports = router;
