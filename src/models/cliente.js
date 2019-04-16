@@ -2,62 +2,70 @@
 
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('cliente', {
-    id_cliente: {
+    idCliente: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
-      primaryKey: true
+      primaryKey: true, 
+      autoIncrement: true,
+      field: "id_cliente"
     },
-    id_vendedor: {
+    idVendedor: {
       type: DataTypes.INTEGER(11),
-      allowNull: true,
       references: {
         model: 'vendedor',
         key: 'id_vendedor'
-      }
+      },
+      field: "id_vendedor"
     },
-    primer_nombre: {
+    primerNombre: {
       type: DataTypes.STRING(50),
-      allowNull: false
+      allowNull: false,
+      field: "primer_nombre"
+      
     },
-    segundo_nombre: {
+    segundoNombre: {
       type: DataTypes.STRING(50),
-      allowNull: true
+      allowNull: true,
+      field: "segundo_nombre"
     },
-    primer_apellido: {
+    primerApellido: {
       type: DataTypes.STRING(50),
-      allowNull: false
+      allowNull: false,
+      field: "primer_apellido"
     },
-    segundo_apellido: {
+    segundoApellido: {
       type: DataTypes.STRING(50),
-      allowNull: true
+      allowNull: true,
+      field: "segundo_apellido"
     },
     identificacion: {
       type: DataTypes.INTEGER(11),
-      allowNull: false
+      allowNull: false,
     },
     nit: {
       type: DataTypes.STRING(30),
-      allowNull: false
+      allowNull: false,
     },
     direccion: {
       type: DataTypes.STRING(100),
-      allowNull: false
+      allowNull: false,
     },
     telefono: {
       type: DataTypes.INTEGER(11),
-      allowNull: false
+      allowNull: false,
     },
     ciudad: {
       type: DataTypes.STRING(100),
-      allowNull: false
+      allowNull: false,
     },
     departamento: {
       type: DataTypes.STRING(100),
-      allowNull: false
+      allowNull: false,
     },
-    nombre_negocio: {
+    nombreNegocio: {
       type: DataTypes.STRING(50),
-      allowNull: false
+      allowNull: false,
+      field: "nombre_negocio"
     },
     estado: {
       type: DataTypes.STRING(1),

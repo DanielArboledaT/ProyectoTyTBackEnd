@@ -22,3 +22,16 @@ exports.consultarClientes = (req,res) => {
     })
 
 }
+
+exports.guardarCliente = (req,res) => {
+
+    let cliente = req.body;
+
+    Cliente.create(cliente)
+    .then(cliente => {
+        res.json(cliente);
+    }).catch(err => {
+        console.log(err);
+        res.status(500).json({msg: "error", details: err});
+    })
+}

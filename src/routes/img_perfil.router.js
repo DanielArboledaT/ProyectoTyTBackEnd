@@ -1,6 +1,6 @@
 const router = require('express').Router();
-const vendedores = require('../controller/img_perfil.controller.js')
+const imgPefil = require('../controller/img_perfil.controller.js')
 
-router.post('/guardarImg', vendedores.guardarImgPerfil);
+router.post('/imgPerfil/guardarImg', imgPefil.guardarImgPerfil);
 
 module.exports = router;
