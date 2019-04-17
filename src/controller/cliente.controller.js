@@ -36,6 +36,26 @@ exports.guardarCliente = (req,res) => {
     })
 }
 
+exports.actualizarCliente = (req,res) => {
+
+    let cliente = req.body;
+
+    Cliente.update(cliente,
+            {
+                where: { 
+                    idCliente: cliente.idCliente
+                }
+            }
+        )
+        .then(cliente => {
+            res.json(cliente)
+        }).catch(err => {
+            console.log(err);
+            res.status(500).json({msg: "error", details: err});
+        })
+
+}
+
 exports.cambiarEstadoCliente = (req,res) =>{
 
     let cliente = req.body;
