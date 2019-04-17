@@ -73,8 +73,6 @@ exports.loginAdmin = async (req, res, next) => {
         password: bcrypt.hashSync(req.body.password)
     };
 
-    console.log("admin",admin)
-
     try{
 
         let adminActual = await consultarAdminById(admin);
@@ -92,9 +90,9 @@ exports.loginAdmin = async (req, res, next) => {
                 email : admin.email,
                 accessToken: accessToken,
                 expiresIn: expires,
-                administrador: adminActual[0].hash
+                administrador: adminActual[0].dataValues.hash
 
-            }     
+            } 
 
             res.send({dataAdmin});
             /*const resultPasword = bcrypt.compareSync(admin.password, adminActual[0].password);

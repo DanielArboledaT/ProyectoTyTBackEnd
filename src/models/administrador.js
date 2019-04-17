@@ -75,6 +75,10 @@ module.exports = function(sequelize, DataTypes) {
     password: {
       type: DataTypes.STRING(18),
       allowNull: false
+    },
+    hash: {
+      type: DataTypes.STRING(10),
+      allowNull: false
     }
   }, {
     tableName: 'administrador'
