@@ -18,6 +18,10 @@ module.exports = function(sequelize, DataTypes) {
       },
       field: "id_img_perfil"
     },
+    dueño: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    },
     primerNombre: {
       type: DataTypes.STRING(50),
       allowNull: false,

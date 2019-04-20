@@ -1,5 +1,5 @@
 const db = require('../config/db.config');
-
+const shortid = require('shortid');
 
 //------------------------------------------------------
 //Entidades de Sequelize
@@ -47,14 +47,16 @@ exports.consultarVendedores = (req,res) => {
 exports.guardarVendedor = (req,res) => {
 
     let nuevoVendedor = req.body;
+    nuevoVendedor.hash = shortid.generate(10);
+    console.log("nuevoVendedor", nuevoVendedor);
 
-    Vendedor.create(nuevoVendedor)
+    /*Vendedor.create(nuevoVendedor)
         .then(vendedor => {
             res.json(vendedor)
         }).catch(err => {
             console.log(err);
             res.status(500).json({msg: "error", details: err});
-        })
+        })*/
 
 }
 

@@ -1,6 +1,5 @@
 const db = require('../config/db.config');
 
-
 //------------------------------------------------------
 //Entidades de Sequelize
 //------------------------------------------------------
@@ -32,3 +31,4 @@ exports.consultarAdmin = (req,res) => {
     })
 
 }
+

@@ -81,6 +81,10 @@ module.exports = function(sequelize, DataTypes) {
     email: {
       type: DataTypes.STRING(100),
       allowNull: false
+    },
+    hash: {
+      type: DataTypes.STRING(10),
+      allowNull: false
     }
   }, {
     tableName: 'vendedor'

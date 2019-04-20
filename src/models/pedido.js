@@ -27,7 +27,7 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER(11),
       allowNull: true
     },
-    descuento_individual: {
+    descuento: {
       type: DataTypes.FLOAT,
       allowNull: true
     }

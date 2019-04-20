@@ -9,13 +9,13 @@ module.exports = function(sequelize, DataTypes) {
       autoIncrement: true,
       field: "id_cliente"
     },
-    idVendedor: {
+    idAdministrador: {
       type: DataTypes.INTEGER(11),
       references: {
-        model: 'vendedor',
-        key: 'id_vendedor'
+        model: 'administrador',
+        key: 'id_administrador'
       },
-      field: "id_vendedor"
+      field: "id_administrador"
     },
     primerNombre: {
       type: DataTypes.STRING(50),
@@ -75,6 +75,11 @@ module.exports = function(sequelize, DataTypes) {
     email: {
       type: DataTypes.STRING(100),
       allowNull: false
+    },
+    fechaIngreso: {
+      type: DataTypes.DATEONLY,
+      allowNull: false,
+      field: "fecha_ingreso"
     }
   }, {
     tableName: 'cliente'

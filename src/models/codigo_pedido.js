@@ -23,9 +23,23 @@ module.exports = function(sequelize, DataTypes) {
         key: 'id_vendedor'
       }
     },
-    descuento_global: {
-      type: DataTypes.FLOAT,
-      allowNull: true
+    idAdministrador: {
+      type: DataTypes.INTEGER(11),
+      references: {
+        model: 'administrador',
+        key: 'id_administrador'
+      },
+      field: "id_administrador"
+    },
+    fechaCreacion: {
+      type: DataTypes.DATEONLY,
+      allowNull: false,
+      field: "fecha_creacion"
+    },
+    fechaEntrega: {
+      type: DataTypes.DATEONLY,
+      allowNull: false,
+      field: "fecha_entrega"
     }
   }, {
     tableName: 'codigo_pedido'
