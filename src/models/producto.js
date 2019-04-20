@@ -2,10 +2,12 @@
 
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('producto', {
-    id_producto: {
+    idProducto: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
-      primaryKey: true
+      primaryKey: true,
+      autoIncrement: true,
+      field: "id_producto"
     },
     nombre: {
       type: DataTypes.STRING(150),

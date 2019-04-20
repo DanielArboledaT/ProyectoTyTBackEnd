@@ -2,18 +2,21 @@
 
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('img_recibo', {
-    id_img_recibo: {
+    idImgRecibo: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
-      primaryKey: true
+      primaryKey: true,
+      autoIncrement: true,
+      field: "id_img_recibo"
     },
-    id_codigo_pedido: {
+    idCodigoPedido: {
       type: DataTypes.INTEGER(11),
       allowNull: true,
       references: {
         model: 'codigo_pedido',
         key: 'id_codigo_pedido'
-      }
+      },
+      field: "id_codigo_pedido"
     },
     url: {
       type: DataTypes.STRING(500),

@@ -1,5 +1,5 @@
 const db = require('../config/db.config');
-const administrador = require('./administrador.controller');
+
 
 
 //------------------------------------------------------

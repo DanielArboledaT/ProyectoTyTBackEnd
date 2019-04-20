@@ -2,26 +2,30 @@
 
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('codigo_pedido', {
-    id_codigo_pedido: {
+    idCodigoPedido: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
-      primaryKey: true
+      primaryKey: true,
+      autoIncrement: true,
+      field: "id_codigo_pedido"
     },
-    id_cliente: {
+    idCliente: {
       type: DataTypes.INTEGER(11),
       allowNull: true,
       references: {
         model: 'cliente',
         key: 'id_cliente'
-      }
+      },
+      field: "id_cliente"
     },
-    id_vendedor: {
+    idVendedor: {
       type: DataTypes.INTEGER(11),
       allowNull: true,
       references: {
         model: 'vendedor',
         key: 'id_vendedor'
-      }
+      },
+      field: "id_vendedor"
     },
     idAdministrador: {
       type: DataTypes.INTEGER(11),

@@ -1,5 +1,7 @@
 const db = require('../config/db.config');
 const shortid = require('shortid');
+const administradorController = require('./administrador.controller');
+const util = require('../util');
 
 //------------------------------------------------------
 //Entidades de Sequelize
@@ -9,21 +11,21 @@ const ImgPerfil = db.sequelize.import('../models/img_perfil');
 const Administrador = db.sequelize.import('../models/administrador');
 
 Vendedor.belongsTo(ImgPerfil, {
-    as : 'imgPerfil',
-    foreignKey: 'idImgPerfil' 
+    as: 'imgPerfil',
+    foreignKey: 'idImgPerfil'
 })
 
 Vendedor.belongsTo(Administrador, {
-    as : 'administrador',
-    foreignKey: 'idAdministrador' 
+    as: 'administrador',
+    foreignKey: 'idAdministrador'
 })
 
-exports.consultarVendedores = (req,res) => {
-    
+exports.consultarVendedores = (req, res) => {
+
     Vendedor.findAll({
         include: [
             {
-                model: ImgPerfil, as: 'imgPerfil', 
+                model: ImgPerfil, as: 'imgPerfil',
             },
             {
                 model: Administrador, as: 'administrador'
@@ -35,85 +37,124 @@ exports.consultarVendedores = (req,res) => {
             ['primer_apellido', 'ASC']
         ]
     })
-    .then(vendedor => {
-        res.json(vendedor);
-    }).catch(err => {
-        console.log(err);
-        res.status(500).json({msg: "error", details: err});
-    })
+        .then(vendedor => {
+            res.json(vendedor);
+        }).catch(err => {
+            console.log(err);
+            res.status(500).json({ msg: "error", details: err });
+        })
 
 }
 
-exports.guardarVendedor = (req,res) => {
+exports.guardarVendedor = async (req, res) => {
 
     let nuevoVendedor = req.body;
     nuevoVendedor.hash = shortid.generate(10);
-    console.log("nuevoVendedor", nuevoVendedor);
 
-    /*Vendedor.create(nuevoVendedor)
-        .then(vendedor => {
-            res.json(vendedor)
-        }).catch(err => {
-            console.log(err);
-            res.status(500).json({msg: "error", details: err});
-        })*/
+    let vendedorCreado = await crearVendedor(nuevoVendedor);
+    if (vendedorCreado !== 'undefined') {
+        let historicoVendedor = {
+            cambioRealizado: "Creando vendedor",
+            fechaMovimiento: new Date(),
+            idAdministrador: vendedorCreado.dataValues.idAdministrador,
+            idVendedor: vendedorCreado.dataValues.idVendedor,
+            movimiento: "Crear",
+        }
+        
+        administradorController.guardarHistoricoAdminVendedor(historicoVendedor);
+
+        return res.json(vendedorCreado);
+    } else {
+        const response = util.setRespuesta(500, 'Error agregando vendedor');
+        return response;
+    }
 
 }
 
-exports.actualizarVendedor = (req,res) => {
+crearVendedor = async (nuevo) => {
+
+    try {
+
+        let vendedor = Vendedor.create(nuevo);
+
+        return vendedor;
+
+    } catch (e) {
+        console.log(e);
+        const response = util.setRespuesta(500, 'Error agregando vendedor');
+        return response;
+    }
+
+}
+
+exports.actualizarVendedor = async (req, res) => {
 
     let vendedor = req.body;
 
-    Vendedor.update(vendedor,
+    let historicoAdmin = await administradorController.guardarHistoricoAdminVendedor(vendedor.historicoVendedor);
+
+    if (historicoAdmin.dataValues !== 'undefined') {
+
+        Vendedor.update(vendedor,
             {
-                where: { 
+                where: {
                     idVendedor: vendedor.idVendedor
                 }
             }
         )
-        .then(vendedor => {
-            res.json(vendedor)
-        }).catch(err => {
-            console.log(err);
-            res.status(500).json({msg: "error", details: err});
-        })
+            .then(vendedor => {
+                res.json(vendedor)
+            }).catch(err => {
+                console.log(err);
+                res.status(500).json({ msg: "error", details: err });
+            });
+
+    }
 
 }
 
-exports.cambiarEstadoVendedor = (req,res) =>{
+exports.cambiarEstadoVendedor = async (req, res) => {
 
     let vendedor = req.body;
-    console.log("Vendedor ********************", req.body)
+    console.log("Vendedor ********************", req.body);
 
-    if(vendedor.estado === 'A'){
+    let historicoAdmin = await administradorController.guardarHistoricoAdminVendedor(vendedor.historicoVendedor);
 
-        Vendedor.update({estado :'I'},
-        {
-            where: { 
-                idVendedor: vendedor.idVendedor 
-            }
-        }).then(vendedor => {
-            res.json(vendedor)
-        }).catch(err => {
-            console.log(err);
-            res.status(500).json({msg: "error", details: err});
-        })
+    if(historicoAdmin.dataValues !== 'undefined'){
 
-    }else if(vendedor.estado === 'I'){
+        if (vendedor.estado === 'A') {
 
-        Vendedor.update({estado :'A'},
-        {
-            where: { 
-                idVendedor: vendedor.idVendedor 
-            }
-        }).then(vendedor => {
-            res.json(vendedor)
-        }).catch(err => {
-            console.log(err);
-            res.status(500).json({msg: "error", details: err});
-        })
+            Vendedor.update({ estado: 'I' },
+                {
+                    where: {
+                        idVendedor: vendedor.idVendedor
+                    }
+                }).then(vendedor => {
+                    res.json(vendedor)
+                }).catch(err => {
+                    console.log(err);
+                    res.status(500).json({ msg: "error", details: err });
+                })
+    
+        } else if (vendedor.estado === 'I') {
+    
+            Vendedor.update({ estado: 'A' },
+                {
+                    where: {
+                        idVendedor: vendedor.idVendedor
+                    }
+                }).then(vendedor => {
+                    res.json(vendedor)
+                }).catch(err => {
+                    console.log(err);
+                    res.status(500).json({ msg: "error", details: err });
+                })
+    
+        }
 
     }
+
+    
 
 
 }
