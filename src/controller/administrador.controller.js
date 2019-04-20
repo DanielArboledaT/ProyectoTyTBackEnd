@@ -10,13 +10,51 @@ const HistoricoAdminVendedor = db.sequelize.import('../models/historico_administ
 const HistoricoAdminCliente = db.sequelize.import('../models/historico_administrador_cliente');
 const HistoricoAdminPedido = db.sequelize.import('../models/historico_administrador_pedido');
 const HistoricoAdminProducto = db.sequelize.import('../models/historico_administrador_producto');
+const Vendedor = db.sequelize.import('../models/vendedor');
 
 Administrador.belongsTo(ImgPerfil, {
     as : 'imgPerfil',
     foreignKey: 'idImgPerfil' 
 })
 
-exports.consultarAdmin = (req,res) => {
+HistoricoAdminVendedor.belongsTo(Vendedor, {
+    as: 'vendedor',
+    foreignKey: 'idVendedor'
+})
+
+exports.consultarAministradores = (req,res) => {
+
+    Administrador.findAll({
+        attributes: [
+            'primerNombre', 
+            'segundoNombre', 
+            'primerApellido',
+            'segundoApellido',
+            'identificacion',
+            'direccion',
+            'ciudad',
+            'departamento',
+            'fechaIngreso',
+            'estado',
+            'dueño',
+            'hash'
+        ],
+        include: [
+            {
+                model: ImgPerfil, as: 'imgPerfil', 
+            }
+        ]
+    })
+    .then(administrador => {
+        res.json(administrador);
+    }).catch(err => {
+        console.log(err);
+        res.status(500).json({msg: "error", details: err});
+    })
+
+}
+
+exports.consultarAdminByHash = (req,res) => {
     
     let hashAdmin = req.params.hash;
 
@@ -98,6 +136,27 @@ exports.guardarHistoricoAdminProducto = async (historico) => {
         const response = util.setRespuesta(500, 'Error agregando historico');
         return response;
     }  
+
+}
+
+exports.consultarHistoricoAdminVendedor =async (req,res) =>{
+
+    let idAdmin= req.params.id;
+
+    HistoricoAdminVendedor.findAll({
+        include: [
+            {
+                model: Vendedor, as: 'vendedor'
+            }
+        ],
+        where: {idAdministrador: idAdmin}
+    })
+    .then(historicoAdmin => {
+        res.json(historicoAdmin);
+    }).catch(err => {
+        console.log(err);
+        res.status(500).json({msg: "error", details: err});
+    })
 
 }
 
