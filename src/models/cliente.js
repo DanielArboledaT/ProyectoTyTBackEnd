@@ -80,6 +80,10 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.DATEONLY,
       allowNull: false,
       field: "fecha_ingreso"
+    },
+    hash: {
+      type: DataTypes.STRING(10),
+      allowNull: false
     }
   }, {
     tableName: 'cliente'

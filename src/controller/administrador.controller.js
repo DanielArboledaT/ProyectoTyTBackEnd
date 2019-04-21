@@ -11,6 +11,7 @@ const HistoricoAdminCliente = db.sequelize.import('../models/historico_administr
 const HistoricoAdminPedido = db.sequelize.import('../models/historico_administrador_pedido');
 const HistoricoAdminProducto = db.sequelize.import('../models/historico_administrador_producto');
 const Vendedor = db.sequelize.import('../models/vendedor');
+const Cliente = db.sequelize.import('../models/cliente');
 
 Administrador.belongsTo(ImgPerfil, {
     as : 'imgPerfil',
@@ -20,6 +21,11 @@ Administrador.belongsTo(ImgPerfil, {
 HistoricoAdminVendedor.belongsTo(Vendedor, {
     as: 'vendedor',
     foreignKey: 'idVendedor'
+})
+
+HistoricoAdminCliente.belongsTo(Cliente, {
+    as: 'cliente',
+    foreignKey: 'idCliente'
 })
 
 exports.consultarAministradores = (req,res) => {
@@ -147,6 +153,27 @@ exports.consultarHistoricoAdminVendedor =async (req,res) =>{
         include: [
             {
                 model: Vendedor, as: 'vendedor'
+            }
+        ],
+        where: {idAdministrador: idAdmin}
+    })
+    .then(historicoAdmin => {
+        res.json(historicoAdmin);
+    }).catch(err => {
+        console.log(err);
+        res.status(500).json({msg: "error", details: err});
+    })
+
+}
+
+exports.consultarHistoricoAdminCliente =async (req,res) =>{
+
+    let idAdmin= req.params.id;
+
+    HistoricoAdminCliente.findAll({
+        include: [
+            {
+                model: Cliente, as: 'cliente'
             }
         ],
         where: {idAdministrador: idAdmin}

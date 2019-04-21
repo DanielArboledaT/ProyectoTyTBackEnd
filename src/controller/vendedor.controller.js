@@ -46,6 +46,36 @@ exports.consultarVendedores = (req, res) => {
 
 }
 
+exports.consultarVendedoresByHash = (req, res) => {
+
+    let hashVendedor = req.params.hash
+
+    Vendedor.findAll({
+        include: [
+            {
+                model: ImgPerfil, as: 'imgPerfil',
+            },
+            {
+                model: Administrador, as: 'administrador'
+            }
+        ],
+        where: {
+            hash: hashVendedor
+        },
+        order: [
+            ['estado', 'ASC'],
+            ['primer_apellido', 'ASC']
+        ]
+    })
+        .then(vendedor => {
+            res.json(vendedor);
+        }).catch(err => {
+            console.log(err);
+            res.status(500).json({ msg: "error", details: err });
+        })
+
+}
+
 exports.guardarVendedor = async (req, res) => {
 
     let nuevoVendedor = req.body;
@@ -109,6 +139,9 @@ exports.actualizarVendedor = async (req, res) => {
                 res.status(500).json({ msg: "error", details: err });
             });
 
+    }else {
+        const response = util.setRespuesta(500, 'Error agregando historico');
+        return response;
     }
 
 }
@@ -152,6 +185,9 @@ exports.cambiarEstadoVendedor = async (req, res) => {
     
         }
 
+    }else {
+        const response = util.setRespuesta(500, 'Error agregando historico');
+        return response;
     }
 
     
